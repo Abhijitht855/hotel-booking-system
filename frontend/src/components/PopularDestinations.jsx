@@ -11,11 +11,11 @@ const PopularDestinations = () => {
             <h1 className='text-4xl font-semibold'>Popular Destinations</h1>
             <p className=''> We have selected some best locations around the world for you.</p>
         </div>
-         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 ">
       {assets.map((asset, index) => (
         <div
           key={index}
-          className="border rounded-lg shadow-md overflow-hidden bg-white"
+          className="border rounded-2xl shadow-md overflow-hidden bg-white hover:scale-105 transition ease-in-out duration-300"
         >
           <img
             src={asset.image}
