@@ -1,25 +1,30 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken'
 
-// Auth middleware to verify JWT token
 export const authenticate = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1]; // "Bearer token"
+  const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
-    return res.status(401).json({ message: "Authentication failed" });
+    return res.status(401).json({ message: 'Authentication failed' });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    req.user = decoded; // Attach decoded data to the request
+    console.log('Decoded User:', req.user); // Log the decoded user object
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Invalid token" });
+    console.log(error);
+    return res.status(401).json({ message: 'Authentication failed' });
   }
 };
 
-// Middleware to authorize admin access
+
 export const authorizeAdmin = (req, res, next) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "Access denied" });
+   if (req.user?.role == 'user') {
+    return res.status(403).json({ message: 'Access denied' });
   }
   next();
 };
+
+ 
+ 
+ 

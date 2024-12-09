@@ -4,10 +4,10 @@ import { createBooking, getUserBookings } from "../controllers/bookingController
 
 const router = express.Router();
 
-// Create a new booking
-router.post("/", authenticate, createBooking);
 
-// Get all bookings for a user
-router.get("/", authenticate, getUserBookings);
+router.post("/book-room", authenticate, createBooking)
 
-export default router;
+
+router.get("/", authenticate, getUserBookings)
+
+export default router

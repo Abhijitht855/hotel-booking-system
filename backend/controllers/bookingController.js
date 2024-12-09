@@ -1,30 +1,18 @@
-import Booking from "../models/Booking.js";
-import Room from "../models/Room.js";
+import Booking from "../models/bookingModel.js";
+import Room from "../models/roomModel.js";
 
-// Create a booking
+// Create a new booking
 export const createBooking = async (req, res) => {
+  const { roomId, checkIn, checkOut, guests } = req.body;
   try {
-    const { roomId, checkInDate, checkOutDate } = req.body;
-
-    // Find the room being booked
     const room = await Room.findById(roomId);
-    if (!room || !room.available) {
-      return res.status(400).json({ message: "Room is not available." });
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
     }
 
-    // Create the booking
-    const booking = new Booking({
-      user: req.user.id, // User ID from token
-      room: roomId,
-      checkInDate,
-      checkOutDate,
-    });
-
+    // Check if the room is available during the selected dates (You can improve this logic)
+    const booking = new Booking({ userId: req.user.id, roomId, checkIn, checkOut, guests });
     await booking.save();
-
-    // Mark the room as unavailable
-    room.available = false;
-    await room.save();
 
     res.status(201).json({ message: "Booking successful", booking });
   } catch (error) {
@@ -32,10 +20,10 @@ export const createBooking = async (req, res) => {
   }
 };
 
-// Get bookings for a user
+// Get all bookings for a user
 export const getUserBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find({ user: req.user.id }).populate("room");
+    const bookings = await Booking.find({ userId: req.user.id }).populate("roomId");
     res.status(200).json(bookings);
   } catch (error) {
     res.status(500).json({ message: error.message });

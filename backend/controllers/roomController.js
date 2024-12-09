@@ -1,4 +1,5 @@
 import Room from "../models/roomModel.js";
+import mongoose from "mongoose";
 
 // Get all rooms
 export const getRooms = async (req, res) => {
@@ -10,7 +11,7 @@ export const getRooms = async (req, res) => {
   }
 };
 
-// Create a new room (Admin only)
+
 export const createRoom = async (req, res) => {
   try {
     const { name, description, price, city, capacity } = req.body;
@@ -22,22 +23,32 @@ export const createRoom = async (req, res) => {
   }
 };
 
-// Update room details (Admin only)
+
 export const updateRoom = async (req, res) => {
   const roomId = req.params.id;
+
+  // Check if the roomId is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(roomId)) {
+    return res.status(400).json({ message: "Invalid room ID" });
+  }
+
   try {
+    // Find the room by its ID
     const room = await Room.findById(roomId);
     if (!room) {
       return res.status(404).json({ message: "Room not found" });
     }
+
+    // Update the room with the new data from req.body
     const updatedRoom = await Room.findByIdAndUpdate(roomId, req.body, { new: true });
+
+    // Return success response
     res.status(200).json({ message: "Room updated", updatedRoom });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Delete a room (Admin only)
 export const deleteRoom = async (req, res) => {
   const roomId = req.params.id;
   try {

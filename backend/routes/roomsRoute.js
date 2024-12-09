@@ -1,10 +1,9 @@
 import express from "express";
-import { authenticate } from "../middlewares/authMiddleware.js";
 import Room from "../models/roomModel.js";
 
 const router = express.Router();
 
-// Get all rooms
+
 router.get("/", async (req, res) => {
   try {
     const rooms = await Room.find();

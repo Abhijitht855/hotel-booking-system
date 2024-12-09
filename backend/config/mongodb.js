@@ -1,14 +1,3 @@
-// import mongoose from "mongoose";
-
-// const connectDB = async () => {
-//     mongoose.connection.on("connected", () => {
-//       console.log("DB connected successfully.");
-//     });
-  
-//     await mongoose.connect(`${process.env.MONGO_URI}/hotel`);
-//   };
-  
-//   export default connectDB;
 
 import mongoose from "mongoose";
 import dotenv from "dotenv";

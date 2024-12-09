@@ -7,12 +7,12 @@ const router = express.Router();
 
 // Payment route
 router.post("/pay", authenticate, async (req, res) => {
-  const { amount } = req.body;  // amount in cents
+  const { amount } = req.body;
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
-      currency: "usd",
+      currency: "inr",
       metadata: { userId: req.user.id },
     });
 
