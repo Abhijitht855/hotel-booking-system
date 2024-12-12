@@ -1,16 +1,10 @@
 import express from "express";
-import Room from "../models/roomModel.js";
+import { getAllRooms, getRoomDetails } from "../controllers/roomController.js";
 
 const router = express.Router();
 
-
-router.get("/", async (req, res) => {
-  try {
-    const rooms = await Room.find();
-    res.status(200).json(rooms);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// Room Routes
+router.get("/", getAllRooms);
+router.get("/:id", getRoomDetails);
 
 export default router;

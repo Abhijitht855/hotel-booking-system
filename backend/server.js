@@ -1,25 +1,30 @@
-
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/mongodb.js";
-import authRoutes from "./routes/userRoute.js";
+import bodyParser from 'body-parser';
+import cors from "cors";
+
+import authRoutes from "./routes/authRoute.js";
 import roomRoutes from "./routes/roomsRoute.js";
 import adminRoutes from "./routes/adminRoute.js";
-import bodyParser from 'body-parser';
-import bookingRoute from './routes/bookingRoute.js'
+import bookingRoutes from './routes/bookingRoute.js'
+import paymentRoutes from './routes/paymentRoute.js'
+
 
 dotenv.config();
 connectDB();
 
 const app = express();
 
+app.use(cors())
 app.use(bodyParser.json());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes); 
-app.use("/api/rooms", roomRoutes);  
 app.use("/api/admin", adminRoutes); 
-app.use("/api/book", bookingRoute); 
+app.use("/api/rooms", roomRoutes);  
+app.use("/api/bookings", bookingRoutes); 
+app.use("/api/payments", paymentRoutes);
 
 
 
