@@ -6,6 +6,10 @@ const Home = () => {
     <div>
         <SearchHotel/>
         <PopularDestinations/>
+
+
+
+        
     </div>
   )
 }

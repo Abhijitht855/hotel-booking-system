@@ -1,22 +1,32 @@
 import Stripe from "stripe";
+import dotenv from "dotenv";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+dotenv.config();
 
-export const processPayment = async (req, res) => {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Your Stripe Secret Key
+
+// Create Payment Intent
+export const createPaymentIntent = async (req, res) => {
+  const { amount, currency = "usd" } = req.body;
+
   try {
-    const { amount, token } = req.body;
+    // Validate request body
+    if (!amount || isNaN(amount) || amount <= 0) {
+      return res.status(400).json({ message: "Invalid amount" });
+    }
+
+    // Create a PaymentIntent with Stripe
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, // Convert to smallest currency unit
-      currency: "usd",
-      payment_method_types: ["card"],
-      payment_method_data: {
-        type: "card",
-        card: { token },
-      },
+      amount: Math.round(amount * 100), // Stripe requires the amount in cents
+      currency,
+      automatic_payment_methods: { enabled: true }, // Enable payment methods
     });
 
-    res.status(200).json({ success: true, paymentIntent });
+    res.status(200).json({
+      clientSecret: paymentIntent.client_secret,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error creating payment intent:", error);
+    res.status(500).json({ message: "Payment intent creation failed", error: error.message });
   }
 };
