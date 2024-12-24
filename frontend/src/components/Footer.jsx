@@ -10,7 +10,7 @@ const Footer = () => {
                 logo
                 </h1>
                 <p className='w-full md:w-2/3 text-gray-600 '>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis vero ad veritatis perferendis exercitationem veniam sit eum reprehenderit quod. Earum, ipsa. Amet quisquam hic, beatae perferendis velit excepturi libero reiciendis odit illo?
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elihhjjt. Omnis vero ad veritatis perferendis exercitationem veniam sit eum reprehenderit quod. Earum, ipsa. Amet quisquam hic, beatae perferendis velit excepturi libero reiciendis odit illo?
                 </p>
             </div>
 
