@@ -4,33 +4,32 @@ import React, { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL; // Access backend URL from environment variables
 
+  // Load token from localStorage on app load
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    // Check if the user exists in localStorage before parsing
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser)); // Parse if available
-      } catch (error) {
-        console.error("Error parsing user data from localStorage", error);
-      }
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
     }
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
-  };
-
+  // Clear token on logout
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+    setToken(null);
+    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        setToken,
+        backendUrl,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

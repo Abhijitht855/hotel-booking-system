@@ -55,9 +55,9 @@ import { AuthProvider } from "./Context/authContext";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import RoomBooking from "./pages/RoomBooking";
+import RoomsList from "./pages/RoomsList";
+import RoomDetails from "./pages/RoomDetails";
 
-import PrivateRoute from "./components/privateRoute";
 
 const App = () => {
   return (
@@ -67,8 +67,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/book-room" element={<PrivateRoute><RoomBooking /></PrivateRoute>} />
-          
+          <Route path="/rooms" element={<RoomsList />} />
+          <Route path="/rooms/:id" element={<RoomDetails/>} />
         </Routes>
       </Router>
     </AuthProvider>

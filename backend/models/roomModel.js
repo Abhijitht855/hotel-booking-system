@@ -7,6 +7,7 @@ const roomSchema = new mongoose.Schema({
   city: { type: String, required: true }, // City where the room is located
   capacity: { type: Number, required: true }, // Number of guests allowed
   isBooked: { type: Boolean, default: false }, // Availability status
+  images: [{ type: String }], // Array of image URLs
   createdAt: { type: Date, default: Date.now }, // Record creation time
 });
 
