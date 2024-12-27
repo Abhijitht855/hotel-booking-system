@@ -49,10 +49,10 @@ const RoomDetails = () => {
             <strong>Description:</strong> {room.description}
           </p>
           <p className="text-lg">
-            <strong>Price:</strong> ${room.price}
+            <strong>Price:</strong> {room.price}
           </p>
           <p className="text-lg">
-            <strong>Availability:</strong> {room.available ? (
+            <strong>Availability:</strong> {room.isBooked ? (
               <span className="text-green-500">Available</span>
             ) : (
               <span className="text-red-500">Not Available</span>
@@ -64,13 +64,13 @@ const RoomDetails = () => {
         <div className="mt-6 flex justify-center">
           <button
             className={`px-6 py-3 rounded-lg text-white font-semibold transition ${
-              room.available
+              room.isBooked
                 ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-gray-400 cursor-not-allowed"
             }`}
-            disabled={!room.available}
+            disabled={!room.isBooked}
           >
-            {room.available ? "Book Now" : "Unavailable"}
+            {room.isBooked ? "Book Now" : "Unavailable"}
           </button>
         </div>
 

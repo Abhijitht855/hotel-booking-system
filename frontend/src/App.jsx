@@ -57,6 +57,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import RoomsList from "./pages/RoomsList";
 import RoomDetails from "./pages/RoomDetails";
+import RoomBookingForm from "./pages/RoomBookingForm";
+import Footer from "./components/Footer";
 
 
 const App = () => {
@@ -69,7 +71,10 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/rooms" element={<RoomsList />} />
           <Route path="/rooms/:id" element={<RoomDetails/>} />
+          <Route path="/booking" element={<RoomBookingForm/>} />
+
         </Routes>
+        <Footer/>
       </Router>
     </AuthProvider>
   );
