@@ -75,7 +75,7 @@ export const createRoom = async (req, res) => {
     if (!req.files) return res.status(400).json({ message: 'No images uploaded' });
 
     // Map the file paths of uploaded images
-    const imagePaths = req.files.map(file => file.path);
+    const imagePaths = req.files.map(file => `http://localhost:5000/${file.path.replace(/\\/g, '/')}`);
 
     // Check if required fields are in the body
     if (!req.body.name || !req.body.description || !req.body.price || !req.body.city || !req.body.capacity) {
@@ -85,7 +85,7 @@ export const createRoom = async (req, res) => {
     // Create room with image URLs
     const room = new Room({
       ...req.body,
-      images: `http://localhost:5000/${imagePaths}` // Store the array of image paths
+      images: `${imagePaths}` // Store the array of image paths
     });
 
     await room.save();
@@ -118,7 +118,7 @@ export const updateRoom = async (req, res) => {
 
 // Delete Room
 export const deleteRoom = async (req, res) => {
-  try {
+  try { 
     const roomId = req.params.id;
     const deletedRoom = await Room.findByIdAndDelete(roomId);
     if (!deletedRoom) return res.status(404).json({ message: "Room not found" });
