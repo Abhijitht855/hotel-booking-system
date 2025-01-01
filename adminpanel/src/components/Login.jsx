@@ -16,7 +16,7 @@ const App = () => {
     e.preventDefault();
     try {
       if (isRegistering) {
-        const res = await axios.post("http://localhost:5000/api/auth/register", {
+        const res = await axios.post("http://localhost:5000/api/admin/register", {
           name: form.name,
           email: form.email,
           password: form.password,
@@ -24,7 +24,7 @@ const App = () => {
         });
         alert(res.data.message);
       } else {
-        const res = await axios.post("http://localhost:5000/api/auth/login", {
+        const res = await axios.post("http://localhost:5000/api/admin/login", {
           email: form.email,
           password: form.password,
         });

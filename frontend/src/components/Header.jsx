@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../Context/authContext.jsx"
+import { AuthContext } from "../Context/authContext.jsx";
 
 const Header = () => {
   const { user, logout } = useContext(AuthContext);

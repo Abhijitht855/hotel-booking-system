@@ -13,6 +13,16 @@ const Manage = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [editRoomId, setEditRoomId] = useState(null);
 
+  // Fetch token from localStorage
+  const token = localStorage.getItem("token");
+
+  // Axios instance with token
+  const axiosInstance = axios.create({
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   // Fetch rooms
   useEffect(() => {
     fetchRooms();
@@ -20,10 +30,13 @@ const Manage = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/rooms");
+      const response = await axiosInstance.get("http://localhost:5000/api/rooms");
       setRooms(response.data);
     } catch (error) {
       console.error("Error fetching rooms:", error);
+      if (error.response && error.response.status === 401) {
+        alert("Unauthorized! Please log in again.");
+      }
     }
   };
 
@@ -44,10 +57,16 @@ const Manage = () => {
 
     try {
       if (editRoomId) {
-        await axios.put(`http://localhost:5000/api/admin/update-room/${editRoomId}`, formDataToSend);
+        await axiosInstance.put(
+          `http://localhost:5000/api/admin/update-room/${editRoomId}`,
+          formDataToSend
+        );
         alert("Room updated successfully!");
       } else {
-        await axios.post("http://localhost:5000/api/admin/create-room", formDataToSend);
+        await axiosInstance.post(
+          "http://localhost:5000/api/admin/create-room",
+          formDataToSend
+        );
         alert("Room created successfully!");
       }
       fetchRooms();
@@ -79,7 +98,7 @@ const Manage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/delete-room/${id}`);
+      await axiosInstance.delete(`http://localhost:5000/api/admin/delete-room/${id}`);
       alert("Room deleted successfully!");
       fetchRooms();
     } catch (error) {
@@ -89,7 +108,7 @@ const Manage = () => {
   };
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto p-8">
       <h1 className="text-2xl font-bold text-center mb-8">Room Manager</h1>
       <form onSubmit={handleSubmit} className="mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
