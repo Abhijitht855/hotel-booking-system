@@ -1,117 +1,117 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FiMapPin } from "react-icons/fi";
-import { CiCalendar } from "react-icons/ci";
-import { FiUsers } from "react-icons/fi";
 
 const SearchHotel = () => {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [rooms, setRooms] = useState(1);
-
-  const handleRoomsChange = (event) => {
-    setRooms(parseInt(event.target.value));
-  };
+  const [adults, setAdults] = useState(1);
+  const [location, setLocation] = useState("");
 
   return (
-    <div className="px-40 py-5">
-      <div>
-        <div className="text-center">
-          <h1 className="text-[50px] font-bold">Search Hotels...</h1>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam,
-            labore.
-          </p>
-        </div>
+    <div className="relative bg-orange-400 pb-10">
+      {/* Curved Bottom Section */}
+      <div className="absolute inset-x-0 bottom-0">
+        <svg
+          viewBox="0 0 1440 320"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-auto"
+        >
+          <path
+            fill="#ffffff"
+            d="M0,224L1440,96L1440,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
 
-        <div className="bg-indigo-500 m-auto rounded-2xl shadow-lg mt-5">
-          <div className="p-10">
-            <div className="flex items-center gap-4 bg-white p-4 rounded-2xl">
-              <div className="flex-1">
-                <label
-                  htmlFor="hotel-search"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+      {/* Main Content */}
+      <div className="max-w-5xl mx-auto px-4 py-10 relative z-10">
+        <h1 className="text-center text-3xl md:text-4xl font-bold text-white">
+          Book Hotels and Homestays
+        </h1>
+
+        <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
+          {/* Form Inputs */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            {/* Location Input */}
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Where to
+              </label>
+              <input
+                type="text"
+                placeholder="Enter location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg outline-none text-lg font-medium"
+              />
+            </div>
+
+            {/* Check-in Date */}
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Check-in
+              </label>
+              <DatePicker
+                selected={checkInDate}
+                onChange={(date) => setCheckInDate(date)}
+                className="w-full px-4 py-2 border rounded-lg outline-none text-lg font-medium"
+                placeholderText="Select date"
+              />
+            </div>
+
+            {/* Check-out Date */}
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Check-out
+              </label>
+              <DatePicker
+                selected={checkOutDate}
+                onChange={(date) => setCheckOutDate(date)}
+                minDate={checkInDate}
+                className="w-full px-4 py-2 border rounded-lg outline-none text-lg font-medium"
+                placeholderText="Select date"
+              />
+            </div>
+
+            {/* Guests & Rooms */}
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Guests & Rooms
+              </label>
+              <div className="flex items-center gap-2">
+                <select
+                  value={adults}
+                  onChange={(e) => setAdults(Number(e.target.value))}
+                  className="w-1/2 px-4 py-2 border rounded-lg outline-none text-lg font-medium"
                 >
-                  Hotel Search
-                </label>
-                <div className="flex items-center bg-gray-200 rounded-md">
-                  <FiMapPin className="text-[28px] ml-2 text-slate-500" />
-                  <input
-                    id="hotel-search"
-                    type="text"
-                    placeholder="Search For Hotels"
-                    className="w-full py-3 rounded-md outline-none bg-gray-200 ml-2"
-                  />
-                </div>
-              </div>
-
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Check-in
-                </label>
-                <div className="flex items-center bg-gray-200 rounded-md">
-                  <CiCalendar className="text-[28px] ml-2 text-slate-500" />
-                  <DatePicker
-                    selected={checkInDate}
-                    onChange={(date) => {
-                      setCheckInDate(date);
-                      if (checkOutDate && date >= checkOutDate) {
-                        setCheckOutDate(null);
-                      }
-                    }}
-                    selectsStart
-                    startDate={checkInDate}
-                    endDate={checkOutDate}
-                    className="p-2  rounded-md w-full bg-gray-200 py-3 outline-none"
-                    placeholderText="Select check-in date"
-                  />
-                </div>
-              </div>
-
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Check-out
-                </label>
-                <div className="flex items-center bg-gray-200 rounded-md">
-                  <DatePicker
-                    selected={checkOutDate}
-                    onChange={(date) => setCheckOutDate(date)}
-                    selectsEnd
-                    startDate={checkInDate}
-                    endDate={checkOutDate}
-                    minDate={checkInDate}
-                    className="p-2 rounded-md w-full bg-gray-200 py-3 outline-none"
-                    placeholderText="Select check-out date"
-                  />
-                </div>
-              </div>
-
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Rooms
-                </label>
-                <div className="flex items-center bg-gray-200 rounded-md">
-                  <FiUsers className="text-[28px] ml-2 text-slate-500" />
-                  <select
-                    value={rooms}
-                    onChange={handleRoomsChange}
-                    className="w-full p-2 border rounded-md bg-gray-200 py-3 outline-none text-gray-700"
-                  >
-                    {[1, 2, 3, 4, 5].map((room) => (
-                      <option key={room} value={room} >
-                        {room} {room === 1 ? "Room" : "Rooms"}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <option key={num} value={num}>
+                      {num} Adult{num > 1 ? "s" : ""}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={rooms}
+                  onChange={(e) => setRooms(Number(e.target.value))}
+                  className="w-1/2 px-4 py-2 border rounded-lg outline-none text-lg font-medium"
+                >
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <option key={num} value={num}>
+                      {num} Room{num > 1 ? "s" : ""}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
-            <div className="flex justify-center mt-5">
-              <button className="px-6 py-3 bg-white text-black font-bold rounded-md shadow-md hover:bg-gray-300">
-                Search
-              </button>
-            </div>
+          </div>
+
+          {/* Search Button */}
+          <div className="flex justify-center mt-6">
+            <button className="bg-orange-500 text-white text-lg font-bold px-8 py-3 rounded-full shadow-md hover:bg-orange-600">
+              Search
+            </button>
           </div>
         </div>
       </div>

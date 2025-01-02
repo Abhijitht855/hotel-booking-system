@@ -6,7 +6,7 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <header className="bg-blue-600 text-white p-4">
+    <header className="p-5 shadow-2xl">
       <nav className="flex justify-between">
         <Link to="/" className="font-bold">Hotel Booking</Link>
         <div>
@@ -16,7 +16,7 @@ const Header = () => {
               <button onClick={logout} className="bg-red-500 px-4 py-2 rounded">Logout</button>
             </>
           ) : (
-            <Link to="/login" className="bg-blue-500 px-4 py-2 rounded">Login</Link>
+            <Link to="/login" className="bg-blue-500 px-4 py-2 rounded text-white">Login</Link>
           )}
         </div>
       </nav>
