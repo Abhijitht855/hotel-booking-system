@@ -26,42 +26,22 @@ export const registerAdmin = async (req, res) => {
 
 // Admin login function
 
-
 export const loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Debug: Log incoming request body
-    console.log("Admin Login Request Body:", req.body);
-
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
-    }
-
-    const admin = await Admin.findOne({ email });
-
-    // Debug: Check if admin is found
-    console.log("Admin Found:", admin);
-
-    if (admin && (await bcrypt.compare(password, admin.password))) {
-      const token = jwt.sign({ id: admin._id, role: admin.role }, process.env.JWT_SECRET, {
+    const user = await Admin.findOne({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
-
-      // Debug: Successful login
-      console.log("Admin Login Successful, Token:", token);
-
-      res.status(200).json({ token, role: admin.role });
+      res.status(200).json({ token, role: user.role });
     } else {
-      console.log("Invalid Admin Credentials");
       res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (error) {
-    console.error("Error in Admin Login:", error);
     res.status(500).json({ message: error.message });
   }
 };
-
 
 
 // Configure multer storage

@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticate } from "../middlewares/authMiddleware.js"; // Ensure the authenticate middleware is used
-import { bookRoom, getBookingsByUser, getAllBookings } from "../controllers/bookingController.js"; // Booking controller methods
+import { bookRoom, getBookingsByUser, getAllBookings, addBookedRoom } from "../controllers/bookingController.js"; // Booking controller methods
 
 const router = express.Router();
 
@@ -12,5 +12,7 @@ router.get("/user-bookings", authenticate, getBookingsByUser);
 
 // Route to get all bookings (Admin can access this route)
 router.get("/all-bookings", authenticate, getAllBookings);
+
+router.post("/booked",addBookedRoom)
 
 export default router;

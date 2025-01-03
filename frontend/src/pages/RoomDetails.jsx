@@ -13,7 +13,7 @@ const RoomDetails = () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/rooms/${id}`);
         setRoom(res.data);
-        setSelectedRoomType(res.data.roomType || ""); // Set default room type if available
+        setSelectedRoomType(res.data.roomType || "");
         setLoading(false);
       } catch (error) {
         console.error("Error fetching room details:", error);
@@ -24,14 +24,18 @@ const RoomDetails = () => {
     fetchRoomDetails();
   }, [id]);
 
-  if (loading) return <div className="text-center text-xl">Loading...</div>;
+  if (loading) return <div className="text-center text-xl mt-10">Loading...</div>;
 
-  if (!room) return <div className="text-center text-xl">Room not found</div>;
+  if (!room) return <div className="text-center text-xl mt-10">Room not found</div>;
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
-        <h1 className="text-3xl font-bold text-center">{room.name}</h1>
+    <div className="container mx-auto p-6 max-w-4xl">
+      <div className="bg-gray-100 rounded-lg shadow-lg p-6 space-y-8">
+        {/* Room Title */}
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-gray-800">{room.name}</h1>
+          <p className="text-gray-600 mt-2 text-lg">{room.location}</p>
+        </div>
 
         {/* Room Image */}
         {room.images && room.images.length > 0 ? (
@@ -46,45 +50,50 @@ const RoomDetails = () => {
           </div>
         )}
 
-        {/* Room Type Dropdown */}
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <div className="w-full md:w-1/2">
-            <label className="block text-lg font-medium text-gray-700 mb-2">Room Type</label>
-            <select
-              value={selectedRoomType}
-              onChange={(e) => setSelectedRoomType(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            >
-              <option value="Single">Single</option>
-              <option value="Double">Double</option>
-              <option value="Suite">Suite</option>
-              <option value="Family">Family</option>
-            </select>
+        {/* Room Details */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Description */}
+          <div>
+            <h2 className="text-lg font-semibold text-gray-700">Description</h2>
+            <p className="text-gray-600 mt-2">{room.description}</p>
+          </div>
+
+          {/* Pricing and Availability */}
+          <div>
+            <h2 className="text-lg font-semibold text-gray-700">Details</h2>
+            <p className="mt-2">
+              <strong className="text-gray-800">Price:</strong> ₹{room.price}
+            </p>
+            <p className="mt-2">
+              <strong className="text-gray-800">Availability:</strong>{" "}
+              {room.isBooked ? (
+                <span className="text-green-500">Available</span>
+              ) : (
+                <span className="text-red-500">Not Available</span>
+              )}
+            </p>
           </div>
         </div>
 
-        {/* Room Details */}
-        <div className="text-gray-700 space-y-4">
-          <p className="text-lg">
-            <strong>Description:</strong> {room.description}
-          </p>
-          <p className="text-lg">
-            <strong>Price:</strong> ₹{room.price}
-          </p>
-          <p className="text-lg">
-            <strong>Availability:</strong>{" "}
-            {room.isBooked ? (
-              <span className="text-green-500">Available</span>
-            ) : (
-              <span className="text-red-500">Not Available</span>
-            )}
-          </p>
+        {/* Room Type Selector */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">Select Room Type</h2>
+          <select
+            value={selectedRoomType}
+            onChange={(e) => setSelectedRoomType(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="Suite">Suite</option>
+            <option value="Family">Family</option>
+          </select>
         </div>
 
         {/* Booking Button */}
-        <div className="mt-6 flex justify-center">
+        <div className="text-center">
           <button
-            className={`px-6 py-3 rounded-lg text-white font-semibold transition ${
+            className={`w-full md:w-auto px-6 py-3 rounded-lg text-white font-semibold transition ${
               room.isBooked
                 ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-gray-400 cursor-not-allowed"
@@ -96,8 +105,11 @@ const RoomDetails = () => {
         </div>
 
         {/* Back Button */}
-        <div className="mt-4 text-center">
-          <Link to="/rooms" className="text-blue-500 underline hover:text-blue-600">
+        <div className="text-center">
+          <Link
+            to="/rooms"
+            className="text-blue-500 underline hover:text-blue-600 transition"
+          >
             Back to Rooms
           </Link>
         </div>
