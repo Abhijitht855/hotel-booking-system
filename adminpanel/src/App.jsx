@@ -6,6 +6,9 @@ import Navbar from './components/Navbar';
 import Manage from './pages/Manage';
 
 
+export const backendURL=import.meta.env.VITE_BACKEND_URL
+
+
 const App = () => {
   return (
     <div>
